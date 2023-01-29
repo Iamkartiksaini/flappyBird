@@ -3,13 +3,13 @@ let GRAVITY = 5;
 let BIRD_POS = 50;
 let JUMP = 30;
 let SCORE = 0;
-let pipePos = 0;
-let pipePos1 = 0;
-let pipePos3 = 0;
-let pipePos5 = 0;
-let upper_pipeHeight = 27;
-let lower_pipeHeight = 27;
+
+let pipePos1 = 1200;
+let pipePos3 = 1700;
+let pipePos5 = 2200;
+
 let gameStatus = "play";
+let collsionPipe;
 
 function pauseGame() {
   gameStatus = "pause";
@@ -24,13 +24,16 @@ let bird = document.querySelector(".bird");
 let btn = document.querySelector(".btn");
 let pipes = [...document.querySelectorAll(".pipe")];
 let score = document.querySelector(".score span");
-bird.style.left = `50px`;
+
+bird.style.left = `220px`;
+pipes[0].style.left = `${pipePos1}px`;
+pipes[1].style.left = `${pipePos1}px`;
+pipes[2].style.left = `${pipePos3}px`;
+pipes[3].style.left = `${pipePos3}px`;
+pipes[4].style.left = `${pipePos5}px`;
+pipes[5].style.left = `${pipePos5}px`;
 
 // clientX,layerX,movementX,offsetX,pageX,screenX,x
-
-for (i = 0; i < 6; i++) {
-  pipes[i].style.left = `${pipePos}px`;
-}
 
 function fly() {
   BIRD_POS -= 100;
@@ -44,36 +47,50 @@ function fly() {
 
 setInterval(() => {
   if (gameStatus == "play") {
+    if (pipePos1 <= 310) {
+      collsionPipe = pipes[0].clientHeight + 10;
+      if (
+        BIRD_POS + 20 >= collsionPipe &&
+        BIRD_POS + 20 <= collsionPipe + 140 - 50
+      ) {
+        gameStatus = "play";
+      } else {
+        gameStatus = "pause";
+      }
+    }
     BIRD_POS += GRAVITY;
-    pipePos1 -= 5;
-    pipePos3 -= 5;
-    pipePos5 -= 5;
     bird.style.transform = `translateY(${BIRD_POS}px)`;
-    // pipes[2].style.left = `${-pipePos}px`;
+    pipePos1 -= 3;
+    pipePos3 -= 3;
+    pipePos5 -= 3;
 
-    if (pipePos1 <= -200) {
-      pipePos1 = 1000;
-      pipes[0].style.display = `none`;
-      pipes[1].style.display = `none`;
+    if (pipePos1 <= -75) {
+      pipePos1 = 1400;
+      let x = Math.floor(Math.random() * 10);
+      console.log("x1:", x * 22);
+      pipes[0].style.height = `${x * 22}px`;
+      pipes[1].style.height = `${440 - x * 22}px`;
+
       pipes[0].style.left = `${pipePos1}px`;
       pipes[1].style.left = `${pipePos1}px`;
-      SCORE += 10;
     }
-    if (pipePos3 <= -600) {
-      pipePos3 = 600;
-      pipes[2].style.display = `none`;
-      pipes[3].style.display = `none`;
+    if (pipePos3 <= -75) {
+      pipePos3 = 1400;
+      let x = Math.floor(Math.random() * 10);
+      pipes[2].style.height = `${x * 22}px`;
+      pipes[3].style.height = `${440 - x * 22}px`;
+
       pipes[2].style.left = `${pipePos3}px`;
       pipes[3].style.left = `${pipePos3}px`;
-      SCORE += 10;
     }
-    if (pipePos5 <= -1000) {
-      pipePos5 = 200;
-      pipes[4].style.display = `none`;
-      pipes[5].style.display = `none`;
+    if (pipePos5 <= -75) {
+      pipePos5 = 1400;
+      let x = Math.floor(Math.random() * 10);
+      pipes[4].style.height = `${440 - x * 22}px`;
+      pipes[5].style.height = `${x * 22}px`;
+
       pipes[4].style.left = `${pipePos5}px`;
       pipes[5].style.left = `${pipePos5}px`;
-      SCORE += 10;
     } else {
       pipes[0].style.left = `${pipePos1}px`;
       pipes[1].style.left = `${pipePos1}px`;
@@ -81,13 +98,6 @@ setInterval(() => {
       pipes[3].style.left = `${pipePos3}px`;
       pipes[4].style.left = `${pipePos5}px`;
       pipes[5].style.left = `${pipePos5}px`;
-
-      pipes[0].style.display = `block`;
-      pipes[1].style.display = `block`;
-      pipes[2].style.display = `block`;
-      pipes[3].style.display = `block`;
-      pipes[4].style.display = `block`;
-      pipes[5].style.display = `block`;
     }
     if (BIRD_POS > window.innerHeight - 140) {
       BIRD_POS = -80;

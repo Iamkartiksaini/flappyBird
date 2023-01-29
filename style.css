@@ -8,6 +8,7 @@ body {
   background-repeat: repeat no-repeat;
   background-color: #323233;
   position: relative;
+  overflow: hidden;
 }
 .game {
   position: relative;
@@ -23,12 +24,10 @@ body {
   background-image: url("./assets/pipe.png");
   width: 60px;
   height: 220px;
-  margin-left: 100px;
   position: absolute;
   transition: 0.1s;
 }
 .pipe:nth-of-type(1) {
-  transform: rotate(180deg);
   border: 5px solid #000;
 }
 .pipe:nth-of-type(2n) {
@@ -36,19 +35,9 @@ body {
 }
 .pipe:nth-of-type(3) {
   border: 5px solid rgb(34, 61, 216);
-
-  transform: translateX(400px) rotate(180deg);
-}
-.pipe:nth-of-type(4) {
-  transform: translateX(400px);
 }
 .pipe:nth-of-type(5) {
-  border: 5px solid gold;
-
-  transform: translateX(800px) rotate(180deg);
-}
-.pipe:nth-of-type(6) {
-  transform: translateX(800px);
+  border: 5px solid rgb(216, 116, 34);
 }
 
 .btn {
